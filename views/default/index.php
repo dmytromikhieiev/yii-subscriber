@@ -2,4 +2,4 @@
 use app\widgets\SubscribeForm;
 ?>
 
-<?= SubscribeForm::widget(['model' => $model]) ?>
+<?= SubscribeForm::widget() ?>

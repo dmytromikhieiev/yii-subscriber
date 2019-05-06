@@ -1,9 +1,33 @@
 version: '2'
 services:
-  php:
+  db-yii:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: my_secret_pw_shh
+      MYSQL_DATABASE: subscriber
+      MYSQL_USER: devuser
+      MYSQL_PASSWORD: devpass
+    ports:
+      - "9906:3306"
+    container_name: 'db-yii'
+  db-yii-test:
+     image: mysql:5.7
+     environment:
+       MYSQL_ROOT_PASSWORD: my_secret_pw_shh
+       MYSQL_DATABASE: subscriber
+       MYSQL_USER: devuser
+       MYSQL_PASSWORD: devpass
+     ports:
+        - "9907:3306"
+     container_name: 'db-yii-test'
+  php-yii:
     image: yiisoftware/yii2-php:7.1-apache
     volumes:
       - ~/.composer-docker/cache:/root/.composer/cache:delegated
       - ./:/app:delegated
     ports:
-      - '8000:80'
+      - '8080:80'
+    links:
+      - db-yii
+      - db-yii-test
+    container_name: 'php-yii'

@@ -2,20 +2,55 @@
 
 namespace app\controllers;
 
-use app\models\SubscribeForm;
+use app\models\Subscriber;
+use Yii;
+use yii\filters\VerbFilter;
+use yii\web\BadRequestHttpException;
+use yii\web\Controller;
 
 /**
  * Class DefaultController
  */
-class DefaultController extends \yii\web\Controller
+class DefaultController extends Controller
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function behaviors()
+    {
+        return [
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'subscribe' => ['POST'],
+                ],
+            ],
+        ];
+    }
+
     /**
      * @return string
      */
     public function actionIndex()
     {
-        $model = new SubscribeForm();
+        return $this->render('index');
+    }
 
-        return $this->render('index', ['model' => $model]);
+    /**
+     * @return string
+     *
+     * @throws BadRequestHttpException
+     */
+    public function actionSubscribe()
+    {
+        $subscriber = new Subscriber();
+        $subscriber->email = Yii::$app->request->post('email');
+        if (!$subscriber->validate()) {
+            $errors = $subscriber->getErrors();
+            throw new BadRequestHttpException($errors['email'][0]);
+        }
+        $subscriber->save();
+
+        return $this->asJson(['message' => 'Subscribed!']);
     }
 }

@@ -8,13 +8,17 @@ use yii\base\Widget;
  */
 class SubscribeForm extends Widget
 {
-    public $model;
-
+    /**
+     * init
+     */
     public function init()
     {
         parent::init();
     }
 
+    /**
+     * @return string
+     */
     public function run()
     {
         return $this->render('subscribe');

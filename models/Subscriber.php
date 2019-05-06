@@ -1,18 +1,13 @@
 <?php
 namespace app\models;
 
-use yii\base\Model;
+use yii\db\ActiveRecord;
 
 /**
  * Class SubscribeForm
  */
-class SubscribeForm extends Model
+class Subscriber extends ActiveRecord
 {
-    /**
-     * @var string
-     */
-    public $email;
-
     /**
      * @return array
      */
@@ -21,6 +16,15 @@ class SubscribeForm extends Model
         return [
             [['email'], 'required'],
             ['email', 'email'],
+            ['email', 'unique'],
         ];
+    }
+
+    /**
+     * @return string
+     */
+    public static function tableName()
+    {
+        return '{{newsletter}}';
     }
 }

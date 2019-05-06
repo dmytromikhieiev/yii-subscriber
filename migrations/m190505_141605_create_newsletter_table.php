@@ -14,7 +14,7 @@ class m190505_141605_create_newsletter_table extends Migration
     {
         $this->createTable('{{%newsletter}}', [
             'id' => $this->primaryKey(),
-            'email' => $this->string()->notNull(),
+            'email' => $this->string()->notNull()->unique(),
         ]);
     }
 
