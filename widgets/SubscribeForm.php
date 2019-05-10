@@ -21,6 +21,6 @@ class SubscribeForm extends Widget
      */
     public function run()
     {
-        return $this->render('subscribe');
+        return $this->render('subscribe', ['message' => '']);
     }
 }
